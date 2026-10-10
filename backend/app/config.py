@@ -21,7 +21,7 @@ class Settings:
     TOP_K: int = int(os.getenv("TOP_K", "4"))
 
     # Embedding rate limits (free tier allows ~100 requests/minute)
-    EMBED_BATCH_SIZE: int = int(os.getenv("EMBED_BATCH_SIZE", "90"))
+    EMBED_BATCH_SIZE: int = int(os.getenv("EMBED_BATCH_SIZE", "50"))
     EMBED_BATCH_PAUSE: int = int(os.getenv("EMBED_BATCH_PAUSE", "60"))
 
 

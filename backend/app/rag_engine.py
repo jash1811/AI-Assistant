@@ -55,7 +55,6 @@ class RAGEngine:
         return len(chunks)
 
     def _add_with_retry(self, batch, max_retries: int = 6) -> None:
-        delay = 5
         for attempt in range(max_retries):
             try:
                 self.vector_store.add_documents(batch)
@@ -64,8 +63,8 @@ class RAGEngine:
                 message = str(exc)
                 is_rate_limit = "429" in message or "RESOURCE_EXHAUSTED" in message
                 if is_rate_limit and attempt < max_retries - 1:
-                    time.sleep(delay)
-                    delay = min(delay * 2, 60)
+                    # Per-minute quota: wait a full window for it to reset.
+                    time.sleep(settings.EMBED_BATCH_PAUSE)
                     continue
                 raise
 
